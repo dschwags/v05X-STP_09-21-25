@@ -1,0 +1,16 @@
+# Documentation and guides (not for production build)
+STP-modernization_guide/
+DEPLOYMENT_GUIDE.md
+README.md
+github-deploy-instructions.md
+
+# Development files
+.git/
+.gitignore
+*.log
+node_modules/
+.next/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
