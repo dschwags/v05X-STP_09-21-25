@@ -75,7 +75,7 @@ How would you like me to proceed?`,
 export const CREDIT_BUDGET_PROMPT: AIUserPrompt = {
   id: 'credit_budget_warning',
   trigger: 'Credits below 50 + complex task detected',
-  riskLevel: 'critical',
+  riskLevel: 'high',
   promptMessage: `
 ⚠️ **CREDIT BUDGET WARNING** 
 
@@ -108,7 +108,7 @@ How would you like me to proceed?`,
       choice: 'Full Implementation',
       description: 'Proceed with full feature set (HIGH RISK at low credits)',
       creditCost: 25,
-      riskLevel: 'critical'
+      riskLevel: 'high'
     }
   ],
   defaultChoice: 'Defer Complex Features'
