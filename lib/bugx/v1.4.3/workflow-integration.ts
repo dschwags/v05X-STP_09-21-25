@@ -56,7 +56,7 @@ export class BugXWorkflow {
     return {
       shouldPromptUser: riskAssessment.shouldPromptUser,
       promptMessage: riskAssessment.shouldPromptUser ? 
-        formatRiskPrompt(riskAssessment) : undefined,
+        formatRiskPrompt(riskAssessment) || undefined : undefined,
       recommendedApproach: riskAssessment.riskLevel >= 4 ? 'safe' : 'risky',
       estimatedCredits: {
         safe: riskAssessment.safeOption.creditCost,

@@ -191,14 +191,23 @@ export function validateByRole(role: UserRole, data: unknown) {
 // Field validation for real-time feedback
 export function validateField(fieldName: string, value: any, role?: UserRole) {
   try {
-    if (role) {
-      const schema = role === 'student' ? studentSchema : 
-                   role === 'parent' ? parentSchema : 
-                   counselorSchema;
-      
-      schema.pick({ [fieldName]: true } as any).parse({ [fieldName]: value });
+    // Simple validation without complex pick operations
+    if (fieldName === 'firstName' || fieldName === 'lastName') {
+      z.string().min(1, 'Required').parse(value);
+    } else if (fieldName === 'email') {
+      z.string().email('Invalid email').parse(value);
+    } else if (fieldName === 'password') {
+      z.string().min(6, 'At least 6 characters').parse(value);
+    } else if (fieldName === 'phoneNumber') {
+      // Optional field, only validate if provided
+      if (value && value.trim() !== '') {
+        z.string().min(1, 'Invalid phone number').parse(value);
+      }
     } else {
-      baseRegistrationSchema.pick({ [fieldName]: true } as any).parse({ [fieldName]: value });
+      // For other fields, just check if not empty when required
+      if (value && typeof value === 'string' && value.trim() === '') {
+        throw new Error('Required field cannot be empty');
+      }
     }
     return { success: true, error: null };
   } catch (error) {
@@ -208,7 +217,7 @@ export function validateField(fieldName: string, value: any, role?: UserRole) {
         error: error.errors[0]?.message || 'Invalid value' 
       };
     }
-    return { success: false, error: 'Validation error' };
+    return { success: false, error: error instanceof Error ? error.message : 'Validation error' };
   }
 }
 
